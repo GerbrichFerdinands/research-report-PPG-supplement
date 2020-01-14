@@ -10,24 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # PPGtools
-The package is currently located a private GitHub repository.
-To install ` PPGtools` on your computer, a token has to be generated.
-Please follow the instructions from the `devtools` package:
+To install ` PPGtools` on your computer, run:
 
-
-> To install from a private repo, use auth_token with a token
-> from https://github.com/settings/tokens. You only need the
-> repo scope. Best practice is to save your PAT in env var called
-> GITHUB_PAT.
-
-After generating the token, the package can be installed.
-```{r}
-# generated token
-token <- "GITHUB_PAT"
-
-# install package from private GitHub repository
-devtools::install_github(GerbrichFerdinands/PPGtools, auth_token = token, build = TRUE)
-
+```{r eval = FALSE}
+# install package from GitHub repository
+devtools::install_github("GerbrichFerdinands/PPGtools", build = TRUE)
 ```
 
 
@@ -38,9 +25,12 @@ devtools::install_github(GerbrichFerdinands/PPGtools, auth_token = token, build 
 
 ## Example
 ```{r}
+library(PPGtools)
+
 # prepare data
 raw_signal <- prepInput(rec, channel = "Green", tstart = 20, tstop = 40)
 ``` 
+
 
 ## Step 1. Filter data
 ```{r}
@@ -48,9 +38,10 @@ raw_signal <- prepInput(rec, channel = "Green", tstart = 20, tstop = 40)
 lambda <- matrix(10^(seq(1, 7, 2)), dimnames = list(paste0('lambda_', 1:4), NULL))
 
 z <- smoothWE(raw_signal = raw_signal, lambda = lambda, d=2, uni = TRUE)
-
 ```
 
+
+## Step 2. Plot results
 ```{r}
 # plot results
 title <- "Uniform sampling assumed, d=2, lambda = 10, 10^3, 10^5, 10^7"
