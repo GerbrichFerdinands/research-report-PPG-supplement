@@ -1,0 +1,61 @@
+---
+title: "Quickstart PPGtools"
+author: "Gerbrich Ferdinands"
+date: "1/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PPGtools
+The package is currently located a private GitHub repository.
+To install ` PPGtools` on your computer, a token has to be generated.
+Please follow the instructions from the `devtools` package:
+
+
+> To install from a private repo, use auth_token with a token
+> from https://github.com/settings/tokens. You only need the
+> repo scope. Best practice is to save your PAT in env var called
+> GITHUB_PAT.
+
+After generating the token, the package can be installed.
+```{r}
+# generated token
+token <- "GITHUB_PAT"
+
+# install package from private GitHub repository
+devtools::install_github(GerbrichFerdinands/PPGtools, auth_token = token, build = TRUE)
+
+```
+
+
+## Package structure
+![](flowchart.png)
+
+## Step 0. Prepare data 
+
+## Example
+```{r}
+# prepare data
+raw_signal <- prepInput(rec, channel = "Green", tstart = 20, tstop = 40)
+``` 
+
+## Step 1. Filter data
+```{r}
+# smooth series z
+lambda <- matrix(10^(seq(1, 7, 2)), dimnames = list(paste0('lambda_', 1:4), NULL))
+
+z <- smoothWE(raw_signal = raw_signal, lambda = lambda, d=2, uni = TRUE)
+
+```
+
+```{r}
+# plot results
+title <- "Uniform sampling assumed, d=2, lambda = 10, 10^3, 10^5, 10^7"
+plotLambda(raw_signal = raw_signal, z = z, title = title)
+```
+
+## Other 
+Detrending how to detrend etc can be found in the rscripts in 'manuscript figures and matrices' folder. 
